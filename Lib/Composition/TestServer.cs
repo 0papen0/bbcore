@@ -5,6 +5,7 @@ using System.Reactive;
 using System.Reactive.Subjects;
 using System.Reactive.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Lib.Utils;
 using Lib.Utils.Logger;
 using Njsast.SourceMap;
@@ -75,6 +76,19 @@ namespace Lib.Composition
             }
 
             return result;
+        }
+
+        public void OnClientTestFocusSet(string targetClientsId, string focusParameters)
+        {
+            var targetClient =
+                Clients.Values.First(client => client.GetConnectionId().Equals(targetClientsId));
+
+            if (targetClient == null)
+            {
+                throw new Exception("Couldn't find a client with the Id: " + targetClientsId);
+            }
+
+            targetClient.TestFocusParameters = focusParameters;
         }
     }
 }

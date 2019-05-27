@@ -53,8 +53,12 @@ c.onMessage = (c: longPollingClient.Connection, message: string, data: any) => {
             break;
         }
         case "setLiveReload": {
-            s.liveReload = data.value;
-            b.invalidate();
+            focusTestsOnAgent(
+                "test-id", 
+                {filePath: "aa/bb/cc", describePath: "descAA/descBB/descCC", itName: "itHUE"}
+            );
+            // s.liveReload = data.value;
+            // b.invalidate();
             break;
         }
         case "setCoverage": {
@@ -68,6 +72,16 @@ c.onMessage = (c: longPollingClient.Connection, message: string, data: any) => {
         }
     }
 };
+
+interface TestFocusParameters {
+    filePath?: string;
+    describePath?: string;
+    itName?: string;
+}
+
+export function focusTestsOnAgent(agentConnectionId: string, focusParameters: TestFocusParameters) {
+    c.send("focusTestsOnAgent", {agentConnectionId, focusParameters});
+}
 
 export function focusPlace(fn: string, pos: number[]) {
     c.send("focusPlace", { fn, pos });

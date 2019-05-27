@@ -71,6 +71,14 @@ namespace Lib.Composition
                     _mainServer.SendToAll("setCoverage", data);
                     break;
                 }
+                case "focusTestsOnAgent":
+                {
+                    var idOfClientToFocus = data.Value<string>("agentConnectionId");
+                    var focusParameters = data["focusParameters"].ToString();
+
+                    _mainServer.NotifyClientTestFocusSet(idOfClientToFocus, focusParameters);
+                    break;
+                }
                 default:
                 {
                     Console.WriteLine("Main Message " + message + " " + data);

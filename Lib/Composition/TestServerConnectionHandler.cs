@@ -24,11 +24,18 @@ namespace Lib.Composition
         readonly ILogger _logger;
         uint[] _coverageData;
 
+        public string TestFocusParameters { get; set; }
+
         public TestServerConnectionHandler(TestServer testServer)
         {
             _testServer = testServer;
             _verbose = testServer.Verbose;
             _logger = testServer.Logger;
+        }
+
+        public string GetConnectionId()
+        {
+            return _connection.Id;
         }
 
         public void OnConnect(ILongPollingConnection connection)
@@ -392,7 +399,7 @@ namespace Lib.Composition
         void DoStart()
         {
             InitCurResults();
-            _connection.Send("test", new { specFilter = _specFilter, url = _url+"#"+_runid });
+            _connection.Send("test", new { specFilter = _specFilter, url = _url+"#"+_runid , testFocusParameters = TestFocusParameters});
         }
 
         void InitCurResults()

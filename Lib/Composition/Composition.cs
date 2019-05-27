@@ -1344,7 +1344,13 @@ namespace Lib.Composition
         {
             _mainServer = new MainServer(() => _testServer.GetState());
             _mainServer.MainBuildResult = _mainBuildResult;
+            _mainServer.OnClientTestFocusSet.Subscribe(args =>
+            {
+                _testServer.OnClientTestFocusSet(args.connectionId, args.focusParameters);
+            });
+
             _mainServerLongPollingHandler = new LongPollingServer(_mainServer.NewConnectionHandler);
+
             _testServer.OnChange.Subscribe(_ => { _mainServer.NotifyTestServerChange(); });
             _testServer.OnCoverageResults.Subscribe(_ => { _mainServer.NotifyCoverageChange(); });
         }
