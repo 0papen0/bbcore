@@ -405,6 +405,7 @@ namespace Lib.Composition
             return new TestResultsHolder
             {
                 UserAgent = _userAgent,
+                AgentConnectionId = _connection.Id,
                 Nested = new List<SuiteOrTest>(),
                 Duration = 0,
                 Running = true,

@@ -31,6 +31,7 @@ export interface SuiteOrTest {
 
 export interface TestResultsHolder extends SuiteOrTest {
     userAgent: string;
+    agentConnectionId: string;
     running: boolean;
     testsFailed: number;
     testsSkipped: number;

@@ -11,6 +11,7 @@ namespace Lib.Composition
     public class TestResultsHolder : SuiteOrTest
     {
         public string UserAgent;
+        public string AgentConnectionId;
         public bool Running;
         [JsonIgnore]
         public uint[]? CoverageData;
@@ -35,6 +36,7 @@ namespace Lib.Composition
                 Nested = new List<SuiteOrTest>(Nested.Select(n => n.Clone())),
                 Logs = Logs.ToList(),
                 UserAgent = UserAgent,
+                AgentConnectionId = AgentConnectionId,
                 Running = Running,
                 TestsFailed = TestsFailed,
                 TestsFinished = TestsFinished,
