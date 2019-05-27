@@ -24,6 +24,9 @@ namespace Lib.Composition
         readonly ILogger _logger;
         uint[] _coverageData;
 
+        public TestFocus testFocus { get; set; }
+        public string ConnectionId => _connection.Id;
+
         public TestServerConnectionHandler(TestServer testServer)
         {
             _testServer = testServer;
@@ -392,7 +395,7 @@ namespace Lib.Composition
         void DoStart()
         {
             InitCurResults();
-            _connection.Send("test", new { specFilter = _specFilter, url = _url+"#"+_runid });
+            _connection.Send("test", new { specFilter = _specFilter, url = _url+"#"+_runid, testFocus});
         }
 
         void InitCurResults()

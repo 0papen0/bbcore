@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using Lib.Utils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Lib.Composition
@@ -69,6 +70,21 @@ namespace Lib.Composition
                     _mainServer.Project.CoverageEnabled = data.Value<bool>("value");
                     _mainServer.NotifyRequestRebuild();
                     _mainServer.SendToAll("setCoverage", data);
+                    break;
+                }
+                case "focusTests":
+                {
+                    var connectionId = data.Value<string>("agentConnectionId");
+
+                    var focusParametersAsJson = data["focusParameters"];
+                    if (focusParametersAsJson == null)
+                    {
+                        throw new Exception("Web returned mangled message data. " +
+                                            "JSON object \"focusParameters\" couldn't be parsed from the data.");
+                    }
+                    var focusParameters = JsonConvert.DeserializeObject<TestFocus>(focusParametersAsJson.ToString());
+
+                    _mainServer.NotifyTestFocusSet(connectionId, focusParameters);
                     break;
                 }
                 default:

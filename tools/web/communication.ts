@@ -69,6 +69,16 @@ c.onMessage = (c: longPollingClient.Connection, message: string, data: any) => {
     }
 };
 
+interface TestFocusParameters {
+    filePath?: string;
+    describePath?: string;
+    itName?: string;
+}
+
+export function focusTests(agentConnectionId: string, focusParameters: TestFocusParameters) {
+    c.send("focusTests", {agentConnectionId, focusParameters});
+}
+
 export function focusPlace(fn: string, pos: number[]) {
     c.send("focusPlace", { fn, pos });
 }

@@ -12,6 +12,7 @@ namespace Lib.Composition
     {
         public readonly ConcurrentDictionary<MainServerConnectionHandler, MainServerConnectionHandler> Clients = new ConcurrentDictionary<MainServerConnectionHandler, MainServerConnectionHandler>();
         public readonly Subject<Unit> OnRequestRebuild = new Subject<Unit>();
+        public readonly Subject<(string connectionId, TestFocus testFocus)> OnTestFocusSet = new Subject<(string connectionId, TestFocus testFocus)>();
 
         public MainServer(Func<TestServerState> testServerStateGetter)
         {
@@ -82,6 +83,11 @@ namespace Lib.Composition
         public void NotifyRequestRebuild()
         {
             OnRequestRebuild.OnNext(Unit.Default);
+        }
+
+        internal void NotifyTestFocusSet(string connectionId, TestFocus testFocus)
+        {
+            OnTestFocusSet.OnNext((connectionId, testFocus));
         }
     }
 }
