@@ -4,7 +4,7 @@ import * as s from "../../state";
 import * as com from "../../communication";
 import { ResultTree } from "../resultTree";
 import { TreeNode, ResultTypes } from "./treeNode";
-import { clickable } from "../clickable";
+import { mouseDownHandler } from "../clickable";
 
 export class ResultNode extends TreeNode {
     SOT: s.SuiteOrTest;
@@ -47,7 +47,7 @@ export class ResultNode extends TreeNode {
     stackFramesToClickableComponent(stackFrames: s.StackFrame[]): b.IBobrilChildren {
         return b.styledDiv(
             stackFrames.map(stackFrame => {
-                return clickable(b.styledDiv(this.stackFrameToString(stackFrame), styles.stack), () => {
+                return mouseDownHandler(b.styledDiv(this.stackFrameToString(stackFrame), styles.stack), () => {
                     com.focusPlace(stackFrame.fileName, [stackFrame.lineNumber, stackFrame.columnNumber]);
                 });
             })
@@ -113,7 +113,7 @@ const createResultNodeComponent = b.createComponent<IResultNodeComponentData>({
     },
     render(ctx: MessageContext, me) {
         me.children = [
-            clickable(
+            mouseDownHandler(
                 b.styledDiv(ctx.data.node.SOT.name, ctx.getResultHeaderStyle(ctx.data.node.containedResults)),
                 () => {
                     ctx.isOpen = !ctx.isOpen;

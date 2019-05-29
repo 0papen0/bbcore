@@ -3,7 +3,7 @@ import * as styles from "../styles";
 import * as treeNode from "./treeNode";
 import { ResultTree } from "../resultTree";
 import { ResultNode } from "./resultNode";
-import { clickable } from "../clickable";
+import { mouseDownHandler } from "../clickable";
 
 export abstract class NestingNode extends treeNode.TreeNode {
     readonly OPEN_SYMBOL: string = "▼ ";
@@ -130,7 +130,7 @@ const createNestingNodeComponent = b.createComponent<INestingNodeComponentData>(
     render(ctx: NestingDataCtx, me) {
         me.children = [
             ctx.data.node.name !== ResultTree.ROOT_NODE_NESTING_ID &&
-                clickable(b.styledDiv(ctx.getHeaderName(), ctx.data.node.getHeaderStyle()), () => {
+                mouseDownHandler(b.styledDiv(ctx.getHeaderName(), ctx.data.node.getHeaderStyle()), () => {
                     ctx.isOpen = !ctx.isOpen;
 
                     b.invalidate();
