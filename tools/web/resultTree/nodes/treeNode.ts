@@ -8,12 +8,17 @@ export abstract class TreeNode {
     hasFilteredDescendant: boolean;
     containedResults: ResultTypes = {};
 
+    public namesOfParentFiles: string[] = [];
+    public namesOfParentDescribes: string[] = [];
+
     abstract recalculateContainedResults(): void;
     abstract setIsFiltered(): void;
     abstract toComponent(): b.IBobrilNode;
 
-    constructor(nestingID: any) {
+    constructor(nestingID: any, namesOfParentFiles: string[], namesOfParentDescribes: string[]) {
         this.nestingID = nestingID;
+        this.namesOfParentFiles = namesOfParentFiles;
+        this.namesOfParentDescribes = namesOfParentDescribes;
     }
 
     updateContainedResults(comparedContainedResults: ResultTypes) {

@@ -13,8 +13,8 @@ export abstract class NestingNode extends treeNode.TreeNode {
     resultNodes: ResultNode[] = [];
     name: string;
 
-    constructor(name: string) {
-        super(name);
+    constructor(name: string, parentFileStructure: string[], parentDescribeStructure: string[]) {
+        super(name, parentFileStructure, parentDescribeStructure);
         this.name = name;
         this.setIsFiltered();
     }
@@ -99,6 +99,18 @@ export class PathNode extends NestingNode {
             ? styles.pathNodeHeaderFailed
             : styles.pathNodeHeader;
     };
+
+    constructor(name: string, parentNodes: NestingNode[]) {
+        super(name, PathNode.filterNamesOfPathNodes(parentNodes), []);
+    }
+
+    static filterNamesOfPathNodes(nodes: NestingNode[]): string[] {
+        let pathNodes = nodes.filter(parentNode => parentNode instanceof PathNode);
+        let namesOfPathNodes = pathNodes.map(pathNode => pathNode.name);
+
+        return namesOfPathNodes;
+    }
+
 }
 
 export class DescribeNode extends NestingNode {
@@ -106,6 +118,18 @@ export class DescribeNode extends NestingNode {
         this.containedResults.failed && ResultTree.showStatus.failed
             ? styles.describeNodeHeaderFailed
             : styles.describeNodeHeader;
+
+    constructor(name: string, parentNodes: NestingNode[]) {
+        super(name, PathNode.filterNamesOfPathNodes(parentNodes), DescribeNode.filterNamesOfDescribeNodes(parentNodes));
+    }
+
+    static filterNamesOfDescribeNodes(nodes: NestingNode[]): string[]{
+        let describeNodes = nodes.filter(parentNode => parentNode instanceof DescribeNode);
+        let namesOfDescribeNodes = describeNodes.map(pathNode => pathNode.name);
+
+        return namesOfDescribeNodes;
+    }
+
 }
 
 interface NestingDataCtx extends b.IBobrilCtx {
