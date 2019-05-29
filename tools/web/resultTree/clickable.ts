@@ -1,13 +1,14 @@
 import * as b from "bobril";
+import {IBobrilMouseEvent} from "bobril";
 
-export function clickable(content: b.IBobrilChildren, action: () => void): b.IBobrilNode {
+export function mouseDownHandler(content: b.IBobrilChildren, action: (evt: IBobrilMouseEvent) => void): b.IBobrilNode {
     return {
         children: content,
         component: {
-            onClick() {
-                action();
+            onMouseDown(ctx, evt: IBobrilMouseEvent) {
+                action(evt);
                 return true;
-            }
+            },
         }
     };
 }
