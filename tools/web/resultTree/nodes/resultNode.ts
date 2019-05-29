@@ -5,14 +5,15 @@ import * as com from "../../communication";
 import { ResultTree } from "../resultTree";
 import { TreeNode, ResultTypes } from "./treeNode";
 import { mouseDownHandler } from "../mouseDownHandler";
+import {DescribeNode, NestingNode, PathNode} from "./nestingNode";
 
 export class ResultNode extends TreeNode {
     SOT: s.SuiteOrTest;
 
     recalculateContainedResults() {}
 
-    constructor(SOT: s.SuiteOrTest) {
-        super(SOT.id);
+    constructor(SOT: s.SuiteOrTest, parentNodes: NestingNode[]) {
+        super(SOT.id, PathNode.filterNamesOfPathNodes(parentNodes), DescribeNode.filterNamesOfDescribeNodes(parentNodes));
         this.SOT = SOT;
         this.containedResults = this.getSOTResultType(SOT);
         this.setIsFiltered();

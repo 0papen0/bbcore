@@ -51,7 +51,7 @@ export class ResultTree {
     }
 
     setNewRootNode() {
-        this.rootNode = new PathNode(ResultTree.ROOT_NODE_NESTING_ID);
+        this.rootNode = new PathNode(ResultTree.ROOT_NODE_NESTING_ID, []);
     }
 
     insertSOTs(SOTs: s.SuiteOrTest[]) {
@@ -67,12 +67,12 @@ export class ResultTree {
         if (SOT.isSuite) {
             SOT.nested.forEach(nestedSOT => {
                 let updatedNestingNodes: NestingNode[] = nestingNodes ? nestingNodes.slice(0) : [];
-                updatedNestingNodes.push(new DescribeNode(SOT.name));
+                updatedNestingNodes.push(new DescribeNode(SOT.name, updatedNestingNodes));
 
                 this.insertByDescribe(nestedSOT, updatedNestingNodes);
             });
         } else {
-            this.rootNode.traversingInsert(new ResultNode(SOT), nestingNodes.slice(0));
+            this.rootNode.traversingInsert(new ResultNode(SOT, nestingNodes), nestingNodes.slice(0));
         }
     }
 
@@ -89,7 +89,10 @@ export class ResultTree {
 
         let pathParts: string[] = current.stack[0].fileName.split("/");
 
-        let nodes: PathNode[] = pathParts.map(part => new PathNode(part));
+        let nodes: PathNode[] = [];
+        for (let i = 0; i < pathParts.length; i++) {
+            nodes[i] = new PathNode(pathParts[i], nodes);
+        }
 
         this.insertByDescribe(SOT, nodes);
     }
