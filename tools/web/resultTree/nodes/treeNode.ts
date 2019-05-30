@@ -1,5 +1,6 @@
 import * as b from "bobril";
 import { ResultTree } from "../resultTree";
+import {TestFocusParameters} from "../../communication";
 
 export abstract class TreeNode {
     nestingID: any;
@@ -14,6 +15,7 @@ export abstract class TreeNode {
     abstract recalculateContainedResults(): void;
     abstract setIsFiltered(): void;
     abstract toComponent(): b.IBobrilNode;
+    abstract createTestFocusParameters(): TestFocusParameters;
 
     constructor(nestingID: any, namesOfParentFiles: string[], namesOfParentDescribes: string[]) {
         this.nestingID = nestingID;
