@@ -171,5 +171,5 @@ const createNestingNodeComponent = b.createComponent<INestingNodeComponentData>(
 function handleMouseDownEvent(ctx: NestingDataCtx) {
     ctx.isOpen = !ctx.isOpen;
 
-    b.invalidate();
+    b.invalidate(ctx);
 }

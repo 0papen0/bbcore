@@ -135,5 +135,5 @@ function handleMouseDownEvent(ctx: MessageContext) {
     ctx.isOpen = !ctx.isOpen;
     ctx.setContent();
 
-    b.invalidate();
+    b.invalidate(ctx);
 }
