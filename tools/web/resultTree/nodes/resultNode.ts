@@ -48,8 +48,11 @@ export class ResultNode extends TreeNode {
     stackFramesToClickableComponent(stackFrames: s.StackFrame[]): b.IBobrilChildren {
         return b.styledDiv(
             stackFrames.map(stackFrame => {
-                return mouseDownHandler(b.styledDiv(this.stackFrameToString(stackFrame), styles.stack), () => {
-                    com.focusPlace(stackFrame.fileName, [stackFrame.lineNumber, stackFrame.columnNumber]);
+                return mouseDownHandler({
+                    content: b.styledDiv(this.stackFrameToString(stackFrame), styles.stack),
+                    action: () => {
+                        com.focusPlace(stackFrame.fileName, [stackFrame.lineNumber, stackFrame.columnNumber]);
+                    }
                 });
             })
         );
@@ -114,13 +117,14 @@ const createResultNodeComponent = b.createComponent<IResultNodeComponentData>({
     },
     render(ctx: MessageContext, me) {
         me.children = [
-            mouseDownHandler(
-                b.styledDiv(ctx.data.node.SOT.name, ctx.getResultHeaderStyle(ctx.data.node.containedResults)),
-                () => {
-                    ctx.isOpen = !ctx.isOpen;
-                    ctx.setContent();
+            mouseDownHandler({
+                    content: b.styledDiv(ctx.data.node.SOT.name, ctx.getResultHeaderStyle(ctx.data.node.containedResults)),
+                    action: () => {
+                        ctx.isOpen = !ctx.isOpen;
+                        ctx.setContent();
 
-                    b.invalidate();
+                        b.invalidate();
+                    }
                 }
             ),
             ctx.stack,

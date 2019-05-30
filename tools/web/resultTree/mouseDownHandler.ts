@@ -1,7 +1,9 @@
 import * as b from "bobril";
 import {IBobrilMouseEvent} from "bobril";
 
-export function mouseDownHandler(content: b.IBobrilChildren, action: (evt: IBobrilMouseEvent) => void): b.IBobrilNode {
+export function mouseDownHandler(args: { content: b.IBobrilChildren, action: (evt: IBobrilMouseEvent) => void }): b.IBobrilNode {
+    const {content, action} = args;
+
     return {
         children: content,
         component: {
