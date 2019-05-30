@@ -6,6 +6,7 @@ import { ResultTree } from "../resultTree";
 import { TreeNode, ResultTypes } from "./treeNode";
 import { mouseDownHandler } from "../mouseDownHandler";
 import {DescribeNode, NestingNode, PathNode} from "./nestingNode";
+import {IBobrilMouseEvent} from "bobril";
 
 export class ResultNode extends TreeNode {
     SOT: s.SuiteOrTest;
@@ -119,12 +120,7 @@ const createResultNodeComponent = b.createComponent<IResultNodeComponentData>({
         me.children = [
             mouseDownHandler({
                     content: b.styledDiv(ctx.data.node.SOT.name, ctx.getResultHeaderStyle(ctx.data.node.containedResults)),
-                    action: () => {
-                        ctx.isOpen = !ctx.isOpen;
-                        ctx.setContent();
-
-                        b.invalidate();
-                    }
+                    action: () => handleMouseDownEvent(ctx)
                 }
             ),
             ctx.stack,
@@ -134,3 +130,10 @@ const createResultNodeComponent = b.createComponent<IResultNodeComponentData>({
         b.style(me, [styles.resultNode]);
     }
 });
+
+function handleMouseDownEvent(ctx: MessageContext) {
+    ctx.isOpen = !ctx.isOpen;
+    ctx.setContent();
+
+    b.invalidate();
+}
