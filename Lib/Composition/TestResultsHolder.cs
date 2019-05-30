@@ -12,6 +12,7 @@ namespace Lib.Composition
     {
         public string UserAgent;
         public string AgentConnectionId;
+        public string TestFocusParameters;
         public bool Running;
         [JsonIgnore]
         public uint[]? CoverageData;

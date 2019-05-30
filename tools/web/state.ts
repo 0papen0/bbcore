@@ -1,3 +1,5 @@
+import {TestFocusParameters} from "./communication";
+
 export interface CompilationResultMessage {
     fileName: string;
     isError: boolean;
@@ -32,6 +34,7 @@ export interface SuiteOrTest {
 export interface TestResultsHolder extends SuiteOrTest {
     userAgent: string;
     agentConnectionId: string;
+    testFocusParameters: TestFocusParameters;
     running: boolean;
     testsFailed: number;
     testsSkipped: number;

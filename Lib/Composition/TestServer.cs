@@ -72,7 +72,10 @@ namespace Lib.Composition
             TestServerState result = new TestServerState();
             foreach (var client in Clients.Keys)
             {
-                result.Agents.Add(client.GetLatestResults());
+                var agent = client.GetLatestResults();
+                agent.TestFocusParameters = client.TestFocusParameters;
+
+                result.Agents.Add(agent);
             }
 
             return result;
