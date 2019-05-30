@@ -154,10 +154,13 @@ const createNestingNodeComponent = b.createComponent<INestingNodeComponentData>(
     render(ctx: NestingDataCtx, me) {
         me.children = [
             ctx.data.node.name !== ResultTree.ROOT_NODE_NESTING_ID &&
-                mouseDownHandler(b.styledDiv(ctx.getHeaderName(), ctx.data.node.getHeaderStyle()), () => {
-                    ctx.isOpen = !ctx.isOpen;
+                mouseDownHandler( {
+                    content: b.styledDiv(ctx.getHeaderName(), ctx.data.node.getHeaderStyle()),
+                    action: () => {
+                        ctx.isOpen = !ctx.isOpen;
 
-                    b.invalidate();
+                        b.invalidate();
+                    }
                 }),
             ctx.isOpen && [
                 ctx.data.node.nestingNodes.map(node => node.isShown() && node.toComponent()),
