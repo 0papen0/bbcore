@@ -5,6 +5,8 @@ import {NestingMethod, ResultTree} from "../resultTree";
 import {ResultNode} from "./resultNode";
 import {mouseDownHandler} from "../mouseDownHandler";
 import {TestFocusParameters} from "../../communication";
+import {IBobrilMouseEvent} from "bobril";
+import {focusTestsForCurrentlySelectedAgent} from "../../index";
 
 export abstract class NestingNode extends treeNode.TreeNode {
     readonly OPEN_SYMBOL: string = "▼ ";
@@ -183,7 +185,7 @@ const createNestingNodeComponent = b.createComponent<INestingNodeComponentData>(
             ctx.data.node.name !== ResultTree.ROOT_NODE_NESTING_ID &&
                 mouseDownHandler( {
                     content: b.styledDiv(ctx.getHeaderName(), ctx.data.node.getHeaderStyle()),
-                    action: () => handleMouseDownEvent(ctx)
+                    action: (mouseDownEvent) => handleMouseDownEvent(ctx, mouseDownEvent)
                 }),
             ctx.isOpen && [
                 ctx.data.node.nestingNodes.map(node => node.isShown() && node.toComponent()),
@@ -194,8 +196,15 @@ const createNestingNodeComponent = b.createComponent<INestingNodeComponentData>(
     }
 });
 
-function handleMouseDownEvent(ctx: NestingDataCtx) {
-    ctx.isOpen = !ctx.isOpen;
+function handleMouseDownEvent(ctx: NestingDataCtx, mouseDownEvent: IBobrilMouseEvent) {
+    switch (mouseDownEvent.button) {
+        case 1:
+            ctx.isOpen = !ctx.isOpen;
+            break;
+        case 2:
+            focusTestsForCurrentlySelectedAgent(ctx.data.node.createTestFocusParameters());
+            break;
+    }
 
     b.invalidate(ctx);
 }
