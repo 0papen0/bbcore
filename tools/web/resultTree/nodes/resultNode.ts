@@ -4,7 +4,7 @@ import * as s from "../../state";
 import * as com from "../../communication";
 import { ResultTree } from "../resultTree";
 import { TreeNode, ResultTypes } from "./treeNode";
-import { mouseDownHandler } from "../clickable";
+import { mouseDownHandler } from "../mouseDownHandler";
 
 export class ResultNode extends TreeNode {
     SOT: s.SuiteOrTest;

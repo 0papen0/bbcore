@@ -3,7 +3,7 @@ import * as styles from "../styles";
 import * as treeNode from "./treeNode";
 import { ResultTree } from "../resultTree";
 import { ResultNode } from "./resultNode";
-import { mouseDownHandler } from "../clickable";
+import { mouseDownHandler } from "../mouseDownHandler";
 
 export abstract class NestingNode extends treeNode.TreeNode {
     readonly OPEN_SYMBOL: string = "▼ ";
