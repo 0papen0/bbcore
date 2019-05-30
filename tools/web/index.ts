@@ -5,6 +5,7 @@ import * as s from "./state";
 import * as com from "./communication";
 import * as bs from "bobrilstrap";
 import { ResultTree, NestingMethod } from "./resultTree/resultTree";
+import {TestFocusParameters} from "./communication";
 
 export function clickable(content: b.IBobrilChildren, action: () => void): b.IBobrilNode {
     return {
@@ -16,6 +17,15 @@ export function clickable(content: b.IBobrilChildren, action: () => void): b.IBo
             }
         }
     };
+}
+
+export function focusTestsForCurrentlySelectedAgent(focusParameters: TestFocusParameters) {
+    let selectedAgent = selectedAgentIndex === -1 ? undefined : s.testSvrState.agents[selectedAgentIndex];
+    if(selectedAgent === undefined) {
+        return;
+    }
+
+    com.focusTests(selectedAgent.agentConnectionId, focusParameters);
 }
 
 function button(name: string, action: () => void, style?: any) {

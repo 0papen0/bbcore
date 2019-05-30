@@ -69,7 +69,7 @@ c.onMessage = (c: longPollingClient.Connection, message: string, data: any) => {
     }
 };
 
-interface TestFocusParameters {
+export interface TestFocusParameters {
     filePath?: string;
     describePath?: string;
     itName?: string;
