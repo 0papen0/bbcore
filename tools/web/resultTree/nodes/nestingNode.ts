@@ -4,6 +4,7 @@ import * as treeNode from "./treeNode";
 import { ResultTree } from "../resultTree";
 import { ResultNode } from "./resultNode";
 import { mouseDownHandler } from "../mouseDownHandler";
+import {IBobrilMouseEvent} from "bobril";
 
 export abstract class NestingNode extends treeNode.TreeNode {
     readonly OPEN_SYMBOL: string = "▼ ";
@@ -156,11 +157,7 @@ const createNestingNodeComponent = b.createComponent<INestingNodeComponentData>(
             ctx.data.node.name !== ResultTree.ROOT_NODE_NESTING_ID &&
                 mouseDownHandler( {
                     content: b.styledDiv(ctx.getHeaderName(), ctx.data.node.getHeaderStyle()),
-                    action: () => {
-                        ctx.isOpen = !ctx.isOpen;
-
-                        b.invalidate();
-                    }
+                    action: () => handleMouseDownEvent(ctx)
                 }),
             ctx.isOpen && [
                 ctx.data.node.nestingNodes.map(node => node.isShown() && node.toComponent()),
@@ -170,3 +167,9 @@ const createNestingNodeComponent = b.createComponent<INestingNodeComponentData>(
         b.style(me, [styles.nestingNode]);
     }
 });
+
+function handleMouseDownEvent(ctx: NestingDataCtx) {
+    ctx.isOpen = !ctx.isOpen;
+
+    b.invalidate();
+}
