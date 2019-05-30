@@ -8,6 +8,7 @@ import { mouseDownHandler } from "../mouseDownHandler";
 import {DescribeNode, NestingNode, PathNode} from "./nestingNode";
 import {IBobrilMouseEvent} from "bobril";
 import {TestFocusParameters} from "../../communication";
+import {focusTestsForCurrentlySelectedAgent} from "../../index";
 
 export class ResultNode extends TreeNode {
     SOT: s.SuiteOrTest;
@@ -129,7 +130,7 @@ const createResultNodeComponent = b.createComponent<IResultNodeComponentData>({
         me.children = [
             mouseDownHandler({
                     content: b.styledDiv(ctx.data.node.SOT.name, ctx.getResultHeaderStyle(ctx.data.node.containedResults)),
-                    action: () => handleMouseDownEvent(ctx)
+                    action: (mouseDownEvent) => handleMouseDownEvent(ctx, mouseDownEvent)
                 }
             ),
             ctx.stack,
@@ -140,9 +141,16 @@ const createResultNodeComponent = b.createComponent<IResultNodeComponentData>({
     }
 });
 
-function handleMouseDownEvent(ctx: MessageContext) {
-    ctx.isOpen = !ctx.isOpen;
-    ctx.setContent();
+function handleMouseDownEvent(ctx: MessageContext, mouseDownEvent: IBobrilMouseEvent) {
+    switch (mouseDownEvent.button) {
+        case 1:
+            ctx.isOpen = !ctx.isOpen;
+            ctx.setContent();
+            break;
+        case 2:
+            focusTestsForCurrentlySelectedAgent(ctx.data.node.createTestFocusParameters());
+            break;
+    }
 
     b.invalidate(ctx);
 }
