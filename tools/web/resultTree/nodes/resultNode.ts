@@ -6,7 +6,7 @@ import { ResultTree } from "../resultTree";
 import { TreeNode, ResultTypes } from "./treeNode";
 import { mouseDownHandler } from "../mouseDownHandler";
 import {DescribeNode, NestingNode, PathNode} from "./nestingNode";
-import {IBobrilMouseEvent} from "bobril";
+import {TestFocusParameters} from "../../communication";
 
 export class ResultNode extends TreeNode {
     SOT: s.SuiteOrTest;
@@ -64,6 +64,14 @@ export class ResultNode extends TreeNode {
             createResultNodeComponent({ node: this }),
             "Result node: " + this.SOT.name + ", at: " + this.SOT.stack[0].fileName + ":" + this.SOT.stack[0].lineNumber
         );
+    }
+
+    createTestFocusParameters(): TestFocusParameters {
+        return {
+            filePath: this.createFilePath(),
+            describePath: this.createDescribePath(),
+            itName: this.SOT.name
+        }
     }
 }
 

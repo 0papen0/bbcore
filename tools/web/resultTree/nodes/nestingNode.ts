@@ -1,10 +1,10 @@
 import * as b from "bobril";
 import * as styles from "../styles";
 import * as treeNode from "./treeNode";
-import { ResultTree } from "../resultTree";
-import { ResultNode } from "./resultNode";
-import { mouseDownHandler } from "../mouseDownHandler";
-import {IBobrilMouseEvent} from "bobril";
+import {NestingMethod, ResultTree} from "../resultTree";
+import {ResultNode} from "./resultNode";
+import {mouseDownHandler} from "../mouseDownHandler";
+import {TestFocusParameters} from "../../communication";
 
 export abstract class NestingNode extends treeNode.TreeNode {
     readonly OPEN_SYMBOL: string = "▼ ";
@@ -105,6 +105,18 @@ export class PathNode extends NestingNode {
         super(name, PathNode.filterNamesOfPathNodes(parentNodes), []);
     }
 
+    createTestFocusParameters(): TestFocusParameters {
+        switch (ResultTree.nestingMethod) {
+            case NestingMethod.ByPath:
+                return {
+                    filePath: this.createFilePath()
+                };
+            case NestingMethod.ByDescribe:
+                return {};
+        }
+    }
+
+
     static filterNamesOfPathNodes(nodes: NestingNode[]): string[] {
         let pathNodes = nodes.filter(parentNode => parentNode instanceof PathNode);
         let namesOfPathNodes = pathNodes.map(pathNode => pathNode.name);
@@ -122,6 +134,20 @@ export class DescribeNode extends NestingNode {
 
     constructor(name: string, parentNodes: NestingNode[]) {
         super(name, PathNode.filterNamesOfPathNodes(parentNodes), DescribeNode.filterNamesOfDescribeNodes(parentNodes));
+    }
+
+    createTestFocusParameters(): TestFocusParameters {
+        switch (ResultTree.nestingMethod) {
+            case NestingMethod.ByPath:
+                return {
+                    filePath: this.createFilePath(),
+                    describePath: this.createDescribePath()
+                };
+            case NestingMethod.ByDescribe:
+                return {
+                    describePath: this.createDescribePath()
+                };
+        }
     }
 
     static filterNamesOfDescribeNodes(nodes: NestingNode[]): string[]{
