@@ -47,6 +47,15 @@ export abstract class TreeNode {
             (this.containedResults.skipped && ResultTree.showStatus.skipped)
         );
     }
+
+    protected createFilePathFromNamesOfParentFiles(): string {
+        return this.namesOfParentFiles.map(parentFileName => parentFileName +"/").join();
+    }
+
+    protected createDescribePathFromNamesOfParentDescribes(): string {
+        return this.namesOfParentDescribes.map(parentDescribeName => parentDescribeName +"/").join();
+    }
+
 }
 
 export interface ResultTypes {
