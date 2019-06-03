@@ -25,6 +25,12 @@ namespace Lib.Composition
         uint[] _coverageData;
 
         public string TestFocusParameters { get; set; }
+        
+        public void ChangeTestFocusing(string newFocusParameters)
+        {
+            TestFocusParameters = newFocusParameters;
+            DoStart();
+        }
 
         public TestServerConnectionHandler(TestServer testServer)
         {

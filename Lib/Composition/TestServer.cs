@@ -91,7 +91,7 @@ namespace Lib.Composition
                 throw new Exception("Couldn't find a client with the Id: " + targetClientsId);
             }
 
-            targetClient.TestFocusParameters = focusParameters;
+            targetClient.ChangeTestFocusing(focusParameters);
         }
     }
 }
