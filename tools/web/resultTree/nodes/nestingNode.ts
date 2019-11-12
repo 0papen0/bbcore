@@ -203,6 +203,7 @@ function handleMouseDownEvent(ctx: NestingDataCtx, mouseDownEvent: IBobrilMouseE
             break;
         case 2:
             focusTestsForCurrentlySelectedAgent(ctx.data.node.createTestFocusParameters());
+            b.invalidate();
             break;
     }
 

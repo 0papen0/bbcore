@@ -198,11 +198,19 @@
     var bbTest = window.parent.bbTest;
     if (bbTest) {
         var specFilter = window.parent.specFilter;
+        var focus = window.parent.focus;
         var specFilterFnc = function (_spec) { return true; };
+        specFilterFnc = function (spec) {
+            var focusRegEx = new RegExp(focus);
+            return focusRegEx.test(window["path"]);
+        };
         if (specFilter) {
             var specFilterRegExp = new RegExp(specFilter);
             specFilterFnc = function (spec) { return specFilterRegExp.test(spec.getFullName()); };
         }
+        // if(focus) {
+        //     specFilterFnc = (spec: any) => spec.getFullName();
+        // }
         env.specFilter = specFilterFnc;
         env.catchExceptions(true);
         onerror = (function (msg, _url, _lineNo, _columnNo, error) {

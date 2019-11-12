@@ -43,6 +43,7 @@ c.onMessage = (c: longPollingClient.Connection, message: string, data: any) => {
         }
         case "test": {
             window["specFilter"] = data.specFilter;
+            window["focus"] = data.testBundleFocusPath;
             testUrl = data.url;
             console.log("Testing:", data.url, data.specFilter);
             b.invalidate();

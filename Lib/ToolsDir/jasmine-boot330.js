@@ -197,11 +197,16 @@
     var bbTest = window.parent.bbTest;
     if (bbTest) {
         var specFilter = window.parent.specFilter;
+        var focus = window.parent.focus;
+        console.log(focus);
         var specFilterFnc = function (_spec) { return true; };
         if (specFilter) {
             var specFilterRegExp = new RegExp(specFilter);
             specFilterFnc = function (spec) { return specFilterRegExp.test(spec.getFullName()); };
         }
+        // if(focus) {
+        //     specFilterFnc = (spec: any) => spec.getFullName();
+        // }
         var config = {
             failFast: false,
             oneFailurePerSpec: true,

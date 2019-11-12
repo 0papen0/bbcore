@@ -1,3 +1,4 @@
+//299
 declare var jasmineRequire: any;
 
 (function() {
@@ -210,11 +211,24 @@ declare var jasmineRequire: any;
     var bbTest = (<any>window.parent).bbTest;
     if (bbTest) {
         var specFilter = (<any>window.parent).specFilter;
+        var focus = (<any>window.parent).focus;
+
         var specFilterFnc = (_spec: any) => true;
+
+        specFilterFnc = (spec: any) =>
+        {
+            var focusRegEx = new RegExp(focus);
+            return focusRegEx.test(window["path"]);
+        }
+
         if (specFilter) {
             var specFilterRegExp = new RegExp(specFilter);
             specFilterFnc = (spec: any) => specFilterRegExp.test(spec.getFullName());
         }
+        // if(focus) {
+        //     specFilterFnc = (spec: any) => spec.getFullName();
+        // }
+
         env.specFilter = specFilterFnc;
         env.catchExceptions(true);
         onerror = ((msg: string, _url: string, _lineNo: number, _columnNo: number, error: Error) => {

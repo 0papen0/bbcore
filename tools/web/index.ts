@@ -148,9 +148,11 @@ function createAgentOverview(selectedAgent: number, setSelectedAgent: (index: nu
                         ],
                         styles.spanInfo
                     ),
-                    createProgressBar(index === selectedAgent, results),
-                    results.running &&
-                        b.styledDiv("Running " + results.testsFinished + "/" + results.totalTests, styles.spanInfo)
+                    // createProgressBar(index === selectedAgent, results),
+                    // results.running &&
+                    //     b.styledDiv("Running " + results.testsFinished + "/" + results.totalTests, styles.spanInfo),
+                    s.testSvrState.agents[index].testFocusParameters &&
+                        b.styledDiv(s.testSvrState.agents[index].testFocusParameters, styles.spanInfo)
                 ],
                 index === selectedAgent ? styles.activeAgentOverview : styles.agentOverview
             ),

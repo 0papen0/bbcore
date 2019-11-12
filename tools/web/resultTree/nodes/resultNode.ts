@@ -149,6 +149,7 @@ function handleMouseDownEvent(ctx: MessageContext, mouseDownEvent: IBobrilMouseE
             break;
         case 2:
             focusTestsForCurrentlySelectedAgent(ctx.data.node.createTestFocusParameters());
+            b.invalidate();
             break;
     }
 
