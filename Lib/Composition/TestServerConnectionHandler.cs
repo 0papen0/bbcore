@@ -23,8 +23,8 @@ namespace Lib.Composition
         readonly bool _verbose;
         readonly ILogger _logger;
         uint[] _coverageData;
+        TestFocus _testFocus;
 
-        public TestFocus testFocus { get; set; }
         public string ConnectionId => _connection.Id;
 
         public TestServerConnectionHandler(TestServer testServer)
@@ -328,6 +328,12 @@ namespace Lib.Composition
             }
         }
 
+        public void ApplyNewTestFocus(TestFocus testFocus)
+        {
+            _testFocus = testFocus;
+            DoStart();
+        }
+
         MessageAndStack ConvertMessageAndStack(string message, string rawStack)
         {
             if (rawStack == null)
@@ -395,7 +401,7 @@ namespace Lib.Composition
         void DoStart()
         {
             InitCurResults();
-            _connection.Send("test", new { specFilter = _specFilter, url = _url+"#"+_runid, testFocus});
+            _connection.Send("test", new { specFilter = _specFilter, url = _url+"#"+_runid, testFocus = _testFocus});
         }
 
         void InitCurResults()

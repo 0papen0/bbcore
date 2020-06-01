@@ -84,7 +84,7 @@ namespace Lib.Composition
             {
                 var targetClient =
                     Clients.Values.First(client => client.ConnectionId.Equals(connectionId));
-                targetClient.testFocus = testFocus;
+                targetClient.ApplyNewTestFocus(testFocus);
             }
             catch (InvalidOperationException)
             {
